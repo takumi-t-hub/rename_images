@@ -7,8 +7,8 @@
 #include <ctype.h>
 
 // List of image file extensions to process
-const char *EXT_LIST[] = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".heic", ".dng", ".tif", ".mov"};
-const int EXT_COUNT = 9;
+const char *EXT_LIST[] = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".heic", ".dng", ".tif", ".mov", ".mp4"};
+const int EXT_COUNT = 10;
 
 // Function to check if a file has an image extension
 int is_image_file(const char *filename)

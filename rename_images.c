@@ -43,18 +43,43 @@ int cmpstr(const void *a, const void *b)
 
 int main(int argc, char *argv[])
 {
-    if (argc != 3)
+    if (argc < 2)
     {
-        printf("Usage: %s prefix digits\n", argv[0]);
+        printf("Usage: %s prefix [--digits N] [--start M]\n", argv[0]);
         return 1;
     }
 
     const char *prefix = argv[1];
-    int digits = atoi(argv[2]);
-    if (digits <= 0 || digits > 20)
+    int digits = 4;
+    int start = 0;
+
+    // Parse optional arguments
+    for (int i = 2; i < argc; i++)
     {
-        printf("Invalid digits: %s\n", argv[2]);
-        return 1;
+        if (strcmp(argv[i], "--digits") == 0 && i + 1 < argc)
+        {
+            digits = atoi(argv[++i]);
+            if (digits <= 0 || digits > 20)
+            {
+                printf("Invalid digits: %d\n", digits);
+                return 1;
+            }
+        }
+        else if (strcmp(argv[i], "--start") == 0 && i + 1 < argc)
+        {
+            start = atoi(argv[++i]);
+            if (start < 0)
+            {
+                printf("Invalid start: %d\n", start);
+                return 1;
+            }
+        }
+        else
+        {
+            printf("Unknown argument: %s\n", argv[i]);
+            printf("Usage: %s prefix [--digits N] [--start M]\n", argv[0]);
+            return 1;
+        }
     }
     DIR *dir;
     struct dirent *entry;
@@ -137,7 +162,7 @@ int main(int argc, char *argv[])
         ext_upper[j] = '\0';
 
         char new_name[256];
-        snprintf(new_name, sizeof(new_name), "%s%0*d%s", prefix, digits, i + 1, ext_upper);
+        snprintf(new_name, sizeof(new_name), "%s%0*d%s", prefix, digits, start + i, ext_upper);
 
         if (rename(image_files[i], new_name) != 0)
         {

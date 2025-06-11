@@ -46,12 +46,14 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         printf("Usage: %s prefix [--digits N] [--start M]\n", argv[0]);
+        printf("  --digits N   Number of digits for sequence (default: 4)\n");
+        printf("  --start M    Starting sequence number (default: 1)\n");
         return 1;
     }
 
     const char *prefix = argv[1];
     int digits = 4;
-    int start = 0;
+    int start = 1;
 
     // Parse optional arguments
     for (int i = 2; i < argc; i++)
